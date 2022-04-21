@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function Die(props: { held: any; hold: any; value: any }) {
-    const styles = {
-        backgroundColor: props.held ? "#59E391" : "white",
-    };
+export default function Die(props: any) {
     return (
-        <div className="die-face" onClick={props.hold} style={styles}>
-            <h2 className="die-num">{props.value}</h2>
+        <div
+            onClick={() => props.toggleHeld(props.id)}
+            className={"die-face " + (props.isHeld && "die-face-green")}
+        >
+            <span className="die-num">{props.val}</span>
         </div>
     );
 }

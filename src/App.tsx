@@ -1,76 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import Die from "./Components/Die";
+import { nanoid } from "nanoid";
 import "./App.css";
 
 function App() {
-    const [dice, setDice] = React.useState(allNewDice());
-    const [tenzies, setTenzies] = React.useState(false);
+    type Dice = {
+        id: string;
+        val: number;
+        isHeld: boolean;
+    };
 
-    React.useEffect(() => {
-        const firstValue = dice[0].value;
-        const allHeld = dice.every((die) => die.held);
-        const allSameNumber = dice.every((die) => die.value === firstValue);
-        if (allHeld && allSameNumber) {
-            setTenzies(true);
+    const [dice, setDice] = useState(() => allNewDice());
+    const [won, setWon] = useState(false);
+
+    useEffect(() => {
+        const allHeld = dice.every((die) => die.isHeld);
+        const value = dice[0].val;
+        const allVal = dice.every((die) => die.val === value);
+        if (allHeld && allVal) {
+            console.log("You Won!");
+            setWon(true);
         }
     }, [dice]);
 
-    function randomDieValue() {
-        return Math.ceil(Math.random() * 6);
-    }
-
     function allNewDice() {
-        const newArray = [];
+        let diceArray: Dice[] = [];
         for (let i = 0; i < 10; i++) {
-            const newDie = {
-                value: randomDieValue(),
-                held: false,
-                id: i + 1,
+            let d: Dice = {
+                id: nanoid(),
+                val: getRandomIntInclusive(1, 9),
+                isHeld: false,
             };
-            newArray.push(newDie);
+            diceArray.push(d);
         }
-        return newArray;
+        return diceArray;
     }
 
-    function rollUnheldDice() {
-        if (!tenzies) {
-            setDice((oldDice) =>
-                oldDice.map((die, i) =>
-                    die.held
-                        ? die
-                        : { value: randomDieValue(), held: false, id: i + 1 }
-                )
-            );
-        } else {
+    function toggleHeld(dieId: string) {
+        setDice((prevDie) => {
+            return prevDie.map((die) => {
+                return die.id === dieId ? { ...die, isHeld: !die.isHeld } : die;
+            });
+        });
+    }
+
+    function getRandomIntInclusive(min: number, max: number) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min);
+        //The maximum is inclusive and the minimum is inclusive
+    }
+
+    const DiceDisplay = dice.map((die) => {
+        return <Die key={die.id} toggleHeld={toggleHeld} {...die} />;
+    });
+
+    function rollDice() {
+        if (won) {
             setDice(allNewDice());
-            setTenzies(false);
+            setWon(false);
+        } else {
+            setDice((prevDie) => {
+                return prevDie.map((die) => {
+                    return die.isHeld
+                        ? die
+                        : { ...die, val: getRandomIntInclusive(1, 9) };
+                });
+            });
         }
     }
-
-    function holdDice(id: number) {
-        setDice((prevDice) =>
-            prevDice.map((die) => {
-                return die.id === id ? { ...die, held: !die.held } : die;
-            })
-        );
-    }
-
-    const diceElements = dice.map((die) => (
-        <Die key={die.id} {...die} hold={() => holdDice(die.id)} />
-    ));
 
     return (
         <main>
-            {tenzies && <Confetti />}
+            {won && <Confetti />}
             <h1>Tenzies</h1>
             <p>
-                Roll until all dice are the same. Click each die to freeze it at
-                its current value between rolls.
+                {won
+                    ? "You Won!"
+                    : "Get same numbers on all dice. Click the dice to freeze at current value between rolls."}
             </p>
-            <div className="die-container">{diceElements}</div>
-            <button className="roll-dice" onClick={rollUnheldDice}>
-                {tenzies ? "Reset Game" : "Roll"}
+            <div className="die-container">{DiceDisplay}</div>
+            <button className="roll-dice" onClick={rollDice}>
+                {won ? "New Game" : "Roll"}
             </button>
         </main>
     );

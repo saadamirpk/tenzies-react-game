@@ -48,6 +48,11 @@ p {
   align-items: center;
   cursor: pointer;
   box-shadow: 0px 3.57447px 3.57447px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.die-face-green{
+  background-color: greenyellow;
 }
 
 .die-num {
@@ -57,7 +62,7 @@ p {
 
 .roll-dice {
   height: 50px;
-  width: 100px;
+  width: 150px;
   border: none;
   border-radius: 6px;
   background-color: #5035FF;
