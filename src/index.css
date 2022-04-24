@@ -7,7 +7,20 @@ body {
   text-align: center;
 }
 
+.holder{
+  position: relative;
+  width: 100%;
+}
+
+.stat-container{
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
+
 main {
+  top: 0;
+  left: 0;
   height: 400px;
   max-width: 800px;
   background-color: whitesmoke;
@@ -58,6 +71,10 @@ p {
 .die-num {
   font-size: 2em;
   font-weight: lighter;
+}
+
+.bold{
+font-weight: 700;
 }
 
 .roll-dice {
