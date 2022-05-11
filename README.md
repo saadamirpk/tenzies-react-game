@@ -1,6 +1,7 @@
 # Tenzies Game Made with React
 
-link to try
+[View live Demo](https://saadamirpk.github.io/tenzies-react-game/)
+
 pics of game
 
 ## Features
@@ -14,7 +15,7 @@ pics of game
 - Timers
 - Custom Hooks
 
-##NPM Packages
+## NPM Packages
 - react-confetti
 - window-resize
 
