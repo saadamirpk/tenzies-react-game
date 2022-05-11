@@ -3,13 +3,13 @@
 link to try
 pics of game
 
-##Features
+## Features
 Number of Rolls Counter
 Stopwatch Score with Minutes and Seconds
 Save Score to localstorage in the browser
 Sort Score to display Top 3 scorers
 
-##React Learning
+## React Learning
 State
 Timers
 Custom Hooks
