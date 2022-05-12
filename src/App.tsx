@@ -4,6 +4,7 @@ import Die from "./Components/Die";
 import { nanoid } from "nanoid";
 import "./App.css";
 import RandomDie from "./Components/RandomDie";
+import Leaderboard from "./Components/Leaderboard";
 
 function App() {
   type Dice = {
@@ -90,7 +91,7 @@ function App() {
 
   const DiceDisplay = dice.map((die) => {
     if (!gameStarted && !won) {
-      return <RandomDie />;
+      return <RandomDie key={die.id} />;
     }
     return <Die key={die.id} toggleHeld={toggleHeld} {...die} />;
   });
@@ -153,7 +154,13 @@ function App() {
           "Get same numbers on all dice. Click the dice to freeze at current value between rolls."
         )}
       </div>
-      <div className="die-container">{DiceDisplay}</div>
+
+      {won ? (
+        <Leaderboard minute={minute} second={second} rollCount={rollCount} />
+      ) : (
+        <div className="die-container">{DiceDisplay}</div>
+      )}
+
       <button className="roll-dice" onClick={rollDice}>
         {won ? "New Game" : gameStarted ? "Roll" : "Start Game"}
       </button>
