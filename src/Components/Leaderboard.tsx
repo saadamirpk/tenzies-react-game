@@ -87,6 +87,7 @@ export default function Leaderboard(props: {
             required
             value={name}
             onChange={hanleChanges}
+            autoComplete="off"
           />
           <button className="sub-btn" onClick={submitName}>
             Submit
