@@ -2,7 +2,8 @@
 
 [View live Demo](https://saadamirpk.github.io/tenzies-react-game/)
 
-pics of game
+![Game Gif](/src/tenzies-gif.gif)
+
 
 ## Features
 - Number of Rolls Counter
